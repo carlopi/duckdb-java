@@ -35,12 +35,12 @@ string StringUtil::GenerateRandomName(idx_t length) {
 	for (idx_t i = 0; i < length; i++) {
 		ss << "0123456789abcdef"[dis(gen)];
 	}
+	return ss.str();
 	}
 	catch (...) {
 		std::cout << "BOOM in StringUtil::GenerateRandomName\n";
 		return "asfasdfasdf";
 	}
-	return ss.str();
 }
 
 bool StringUtil::Contains(const string &haystack, const string &needle) {

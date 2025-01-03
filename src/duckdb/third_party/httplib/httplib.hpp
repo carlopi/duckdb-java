@@ -4661,12 +4661,13 @@ inline std::string make_multipart_data_boundary() {
   for (auto i = 0; i < 16; i++) {
     result += data[engine() % (sizeof(data) - 1)];
   }
+  return result;
 	}
 catch (...) {
 	std::cout << "BOOM in make_multipart_data_boundary\n";
+	return "1241";
 }
 
-  return result;
 }
 
 inline bool is_multipart_boundary_chars_valid(const std::string &boundary) {
