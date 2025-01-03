@@ -4649,7 +4649,8 @@ inline std::string make_multipart_data_boundary() {
   // std::random_device might actually be deterministic on some
   // platforms, but due to lack of support in the c++ standard library,
   // doing better requires either some ugly hacks or breaking portability.
-  std::random_device seed_gen;
+	try {
+  std::random_device seed_gen("/dev/urandom");
 
   // Request 128 bits of entropy for initialization
   std::seed_seq seed_sequence{seed_gen(), seed_gen(), seed_gen(), seed_gen()};
@@ -4660,6 +4661,10 @@ inline std::string make_multipart_data_boundary() {
   for (auto i = 0; i < 16; i++) {
     result += data[engine() % (sizeof(data) - 1)];
   }
+	}
+catch (...) {
+	std::cout << "BOOM in make_multipart_data_boundary\n";
+}
 
   return result;
 }

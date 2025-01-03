@@ -26,13 +26,19 @@ using namespace duckdb_yyjson; // NOLINT
 namespace duckdb {
 
 string StringUtil::GenerateRandomName(idx_t length) {
-	std::random_device rd;
+	try {
+	std::random_device rd("/dev/urandom");
 	std::mt19937 gen(rd());
 	std::uniform_int_distribution<> dis(0, 15);
 
 	std::stringstream ss;
 	for (idx_t i = 0; i < length; i++) {
 		ss << "0123456789abcdef"[dis(gen)];
+	}
+	}
+	catch (...) {
+		std::cout << "BOOM in StringUtil::GenerateRandomName\n";
+		return "asfasdfasdf";
 	}
 	return ss.str();
 }

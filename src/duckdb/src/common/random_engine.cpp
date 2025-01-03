@@ -14,7 +14,11 @@ struct RandomState {
 
 RandomEngine::RandomEngine(int64_t seed) : random_state(make_uniq<RandomState>()) {
 	if (seed < 0) {
-		random_state->pcg.seed(pcg_extras::seed_seq_from<std::random_device>());
+		try {
+		random_state->pcg.seed(pcg_extras::seed_seq_from<std::random_device>("/dev/urandom"));
+		} catch(...) {
+			std::cout << "BOOM in RandomEngine::RandomEngine\n";
+		}
 	} else {
 		random_state->pcg.seed(NumericCast<uint64_t>(seed));
 	}
